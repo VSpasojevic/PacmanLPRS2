@@ -40,7 +40,7 @@
 #include "xio.h"
 #include "xil_exception.h"
 #include "vga_periph_mem.h"
-#include "minesweeper_sprites.h"
+#include "pacman_sprites.h"
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>
 #define SIZE 9
@@ -284,7 +284,33 @@ void makeTable(char temp[9][9]) {
 //extracting pixel data from a picture for printing out on the display
 
 void drawMap(int in_x, int in_y, int out_x, int out_y, int width, int height) {
+
 	int ox, oy, oi, iy, ix, ii;
+	for(y=0;y<height;y++){
+		for(x=0;x<width;x++){
+			ox=out_x+x;
+			oy=out_y+y;
+			oi=oy*320+ox;
+			ix = in_x + x;
+			iy = in_y + y;
+			ii = iy * pacman_sprites.width + ix;
+			R = pacman_sprites.pixel_data[ii*pacman_sprites.bytes_per_pixel]>>5;
+			G = pacman_sprites.pixel_data[ii*pacman_sprites.bytes_per_pixel + 1] >> 5;
+			B = pacman_sprites.pixel_data[ii* pacman_sprites.bytes_per_pixel + 2] >> 5;
+			R <<= 6;
+			G <<= 3;
+			RGB = R | G | B;
+
+			VGA_PERIPH_MEM_mWriteMemory(XPAR_VGA_PERIPH_MEM_0_S_AXI_MEM0_BASEADDR + GRAPHICS_MEM_OFF+ oi * 4, RGB);
+					}
+
+
+
+	}
+
+
+
+/*	int ox, oy, oi, iy, ix, ii;
 	for (y = 0; y < height; y++) {
 		for (x = 0; x < width; x++) {
 			ox = out_x + x;
@@ -292,13 +318,13 @@ void drawMap(int in_x, int in_y, int out_x, int out_y, int width, int height) {
 			oi = oy * 320 + ox;
 			ix = in_x + x;
 			iy = in_y + y;
-			ii = iy * minesweeper_sprites.width + ix;
-			R = minesweeper_sprites.pixel_data[ii
-					* minesweeper_sprites.bytes_per_pixel] >> 5;
-			G = minesweeper_sprites.pixel_data[ii
-					* minesweeper_sprites.bytes_per_pixel + 1] >> 5;
-			B = minesweeper_sprites.pixel_data[ii
-					* minesweeper_sprites.bytes_per_pixel + 2] >> 5;
+			ii = iy * pacman_sprites.width + ix;
+			R = pacman_sprites.pixel_data[ii
+					* pacman_sprites.bytes_per_pixel] >> 5;
+			G = pacman_sprites.pixel_data[ii
+					* pacman_sprites.bytes_per_pixel + 1] >> 5;
+			B = pacman_sprites.pixel_data[ii
+					* pacman_sprites.bytes_per_pixel + 2] >> 5;
 			R <<= 6;
 			G <<= 3;
 			RGB = R | G | B;
@@ -307,7 +333,7 @@ void drawMap(int in_x, int in_y, int out_x, int out_y, int width, int height) {
 					XPAR_VGA_PERIPH_MEM_0_S_AXI_MEM0_BASEADDR + GRAPHICS_MEM_OFF
 							+ oi * 4, RGB);
 		}
-	}
+	}*/
 
 }
 
@@ -638,23 +664,38 @@ int main() {
 	}
 
 	//drawing a map
-	for (kolona = 0; kolona < 9; kolona++) {
+/*	for (kolona = 0; kolona < 9; kolona++) {
 		for (red = 0; red < 9; red++) {
 			drawMap(80, 16, 80 + red * 16, 80 + kolona * 16, 16, 16);
 		}
+	}*/
+	for(kolona=0;kolona<238;kolona++){
+		for(red=0;red<108;red++){
+			drawMap(red,kolona,red+53,kolona,1,1);
+		}
 	}
 
+	for(kolona=237;kolona>=0;kolona--){
+			for(red=107;red>=0;red--){
+				drawMap(red,kolona,267-red,kolona,1,1);
+			}
+		}
+	for(red=0;red<86;red+=7){
+		drawMap(86,261,63+red,11,3,3);
+	}
+	//drawMap(0,0,0,0,112,240);
+
 	//smiley
-	drawMap(0, 55, 120, 54, 27, 26);
+/*	drawMap(0, 55, 120, 54, 27, 26);
 
 	//flag
 	drawMap(65, 17, 154, 60, 13, 13);
 
 	//counter
-	drawMap(116, 32, 168, 54, 14, 23);
+	drawMap(116, 32, 168, 54, 14, 23);*/
 
 	//moving through the table
-	move();
+//	move();
 
 	cleanup_platform();
 
