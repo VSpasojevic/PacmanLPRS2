@@ -513,7 +513,7 @@ void drawMove(int r){
 				}
 				u--;
 			}else if(poz3!=-1){
-				for(l=0;l<4;l++){
+				for(l=0;l<3;l++){
 					pX--;
 				for(i=0;i<200000;i++)
 					i=i;

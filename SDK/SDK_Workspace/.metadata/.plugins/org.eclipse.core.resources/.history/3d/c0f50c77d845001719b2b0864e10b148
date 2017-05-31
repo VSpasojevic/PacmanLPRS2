@@ -41,7 +41,7 @@
 #include "xil_exception.h"
 #include "vga_periph_mem.h"
 #include "pacman_sprites2.h"
-//#include "Sprites.h"
+#include "Sprites.h"
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>
 #define SIZE 9
@@ -429,9 +429,9 @@ int matrix[868]={
 
 int s_posX=0;
 
-int p_s=10;
+int p_s=12;
 int poz1=0,poz2=0,poz3=0;
-int poz=0,pX=156,pY=136;
+int poz=0,pX=154,pY=136;
 int u=13,d=23,l=0,r=0,pX_old=14,pY_old=24,br=0;
 int posPx=14,posPy=23;
 void drawMove(int r){
@@ -454,7 +454,7 @@ void drawMove(int r){
 				}
 				d++;
 			}else if(poz1!=-1){
-				for(l=0;l<4;l++){
+				for(l=0;l<1;l++){
 								pY++;
 								for(i=0;i<200000;i++)
 										i=i;
@@ -495,6 +495,7 @@ void drawMove(int r){
 							}
 				poz2=-1;
 				u++;
+
 			}
 
 
@@ -513,7 +514,7 @@ void drawMove(int r){
 				}
 				u--;
 			}else if(poz3!=-1){
-				for(l=0;l<4;l++){
+				for(l=0;l<3;l++){
 					pX--;
 				for(i=0;i<200000;i++)
 					i=i;
@@ -542,7 +543,7 @@ void drawMove(int r){
 							d--;
 						}else if(poz!=-1){
 
-							for(l=0;l<4;l++){
+							for(l=0;l<1;l++){
 
 															pY--;
 														for(i=0;i<200000;i++)
@@ -596,7 +597,7 @@ void move() {
 
 
 		}else if ((Xil_In32(XPAR_MY_PERIPHERAL_0_BASEADDR) & LEFT)==0){
-			if(pos[u-1][d].x==1)
+			if(pos[u+1][d].x==1)
 				r=3;
 
 		}else if((Xil_In32(XPAR_MY_PERIPHERAL_0_BASEADDR) & UP)==0){
@@ -890,7 +891,7 @@ int main() {
 			drawMap(80, 16, 80 + red * 16, 80 + kolona * 16, 16, 16);
 		}
 	}*/
-for(kolona=0;kolona<186;kolona++){//prva pola
+/*for(kolona=0;kolona<186;kolona++){//prva pola
 		for(red=0;red<84;red++){
 			drawMap(red,kolona,red+76,kolona,1,1);
 		}
@@ -901,15 +902,14 @@ for(kolona=0;kolona<186;kolona++){//prva pola
 				drawMap(red,kolona,243-red,kolona,1,1);
 			}
 		}
-
-
-
+*/
+	drawMap(0,0,0,0,198,217);
 
 	p=0;
 	r=0;
 	red=0;
 	kolona=0;
-	for(j=0;j<868;j++){
+/*	for(j=0;j<868;j++){
 
 		if(p==28){
 					kolona+=5;
@@ -933,7 +933,7 @@ for(kolona=0;kolona<186;kolona++){//prva pola
 
 
 	}
-
+*/
 	/*int pola;
 	for(pola=0;pola<=104;pola+=104){//prvi red
 		for(red=0;red<=88;red+=8){

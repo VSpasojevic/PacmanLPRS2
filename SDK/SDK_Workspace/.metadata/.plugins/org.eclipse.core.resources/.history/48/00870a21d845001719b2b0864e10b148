@@ -5,7 +5,7 @@ static const struct {
   unsigned int  	 height;
   unsigned int 	 bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */ 
   unsigned char	 pixel_data[84 * 234 * 3 + 1];
-} pacman_sprites = {
+} pacman_sprites2 = {
   84, 234, 3,
   "\0\0\0\1\1\5\5\5,\24\24\255\30\30\315\30\30\307\30\30\307\30\30\307\30\30"
   "\307\30\30\307\30\30\307\30\30\307\30\30\307\30\30\307\30\30\307\30\30\307"
