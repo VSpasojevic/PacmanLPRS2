@@ -735,11 +735,10 @@ void move() {
 
 
 
-		unsigned char string[]="sdads";
+
 		drawMove(r);
 		set_cursor(350);
-
-		print_string(XPAR_VGA_PERIPH_MEM_0_S_AXI_MEM0_BASEADDR,string,10);
+		print_string(XPAR_VGA_PERIPH_MEM_0_S_AXI_MEM0_BASEADDR,"sadds",10);
 
 
 	}

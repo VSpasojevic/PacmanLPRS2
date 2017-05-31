@@ -458,7 +458,6 @@ int poz1P=24,poz1P1=24,poz1P2=33,poz1P3=42;
 int poz2P=24,poz2P1=24,poz2P2=58,poz2P3=49;
 int poz3P=24,poz3P1=24,poz3P2=74,poz3P3=17;
 int poz4P=24,poz4P1=24,poz4P2=9,poz4P3=66;
-int brojac=0;
 
 
 
@@ -476,14 +475,8 @@ void drawMove(int r){
 
 		if(r==2 )//DOLE
 		{
-			if(pos[u][d+1].x==1){
-				if(pos[u][d+1].food==2){
-					brojac++;
-					pos[u][d+1].food=-1;
-				}else if(pos[u][d+1].food_b==3){
-					brojac+=10;
-					pos[u][d+1].food_b=-1;
-				}
+			if(pos[u][d+1].x==1 || pos[u][d+1].x==2 || pos[u][d+1].x==3){
+
 				//if(pos[u][d+2].x==0)
 				//	r=5;
 				for(l=0;l<6;l++){
@@ -530,14 +523,8 @@ void drawMove(int r){
 			u=u/6;
 			d=d/6;
 			*/
-			if(pos[u+1][d].x==1){
-				if(pos[u][d+1].food==2){
-									brojac++;
-									pos[u][d+1].food=-1;
-								}else if(pos[u][d+1].food_b==3){
-									brojac+=10;
-									pos[u][d+1].food_b=-1;
-								}
+			if(pos[u][d+1].x==1 || pos[u][d+1].x==2 || pos[u][d+1].x==3){
+
 				for(l=0;l<6;l++){
 					pX++;
 				for(i=0;i<200000;i++)
@@ -578,14 +565,8 @@ void drawMove(int r){
 		}
 		if(r==3){//LEVO
 
-			if(pos[u-1][d].x==1){
-				if(pos[u][d+1].food==2){
-									brojac++;
-									pos[u][d+1].food=-1;
-								}else if(pos[u][d+1].food_b==3){
-									brojac+=10;
-									pos[u][d+1].food_b=-1;
-								}
+			if(pos[u][d+1].x==1 || pos[u][d+1].x==2 || pos[u][d+1].x==3){
+
 				for(l=0;l<6;l++){
 					pX--;
 				for(i=0;i<200000;i++)
@@ -629,14 +610,7 @@ void drawMove(int r){
 
 			}
 		if(r==4){//GORE
-			if(pos[u][d-1].x==1){
-				if(pos[u][d+1].food==2){
-									brojac++;
-									pos[u][d+1].food=-1;
-								}else if(pos[u][d+1].food_b==3){
-									brojac+=10;
-									pos[u][d+1].food_b=-1;
-								}
+			if(pos[u][d+1].x==1 || pos[u][d+1].x==2 || pos[u][d+1].x==3){
 				poz=1;
 
 				r=6;
@@ -735,13 +709,8 @@ void move() {
 
 
 
-		unsigned char string[]="sdads";
+
 		drawMove(r);
-		set_cursor(350);
-
-		print_string(XPAR_VGA_PERIPH_MEM_0_S_AXI_MEM0_BASEADDR,string,10);
-
-
 	}
 }
 
@@ -1053,22 +1022,14 @@ for(kolona=0;kolona<186;kolona++){//prva pola
 		}								///CRTANJE RANE
 
 		if(matrix[j]==1){
-			drawMap(44,213,78+red,kolona+2,3,3);
+			drawMap(67,203,78+red,kolona+2,3,3);
 			pos[p][r].x=1;
-			pos[p][r].food=2;
-		}
 
-		 if(matrix[j]==2){
-			pos[p][r].x=1;
-		}
-		if(matrix[j]==3){
-			drawMap(48,213,78+red,kolona+2,4,4);
-			pos[p][r].x=1;
-			pos[p][r].food_b=3;
-		}
 
+		}
 		red+=6;
 		p++;
+
 
 
 

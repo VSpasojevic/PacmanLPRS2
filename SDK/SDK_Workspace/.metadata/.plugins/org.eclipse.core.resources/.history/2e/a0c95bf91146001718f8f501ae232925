@@ -1,11 +1,11 @@
 /* GIMP RGB C-Source image dump (Sprites.c) */
 
 static const struct {
-  unsigned int  	 width;
-  unsigned int  	 height;
-  unsigned int  	 bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */
-  unsigned char 	 pixel_data[84 * 260 * 3 + 1];
-} pacman_sprites = {
+  guint  	 width;
+  guint  	 height;
+  guint  	 bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */ 
+  guint8 	 pixel_data[84 * 260 * 3 + 1];
+} gimp_image = {
   84, 260, 3,
   "\0\0\0\2\2\15\2\2\24\30\30\311\27\27\300\27\27\300\27\27\300\27\27\300\27"
   "\27\300\27\27\300\27\27\300\27\27\300\27\27\300\27\27\300\27\27\300\27\27"

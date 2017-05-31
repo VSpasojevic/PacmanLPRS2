@@ -531,13 +531,7 @@ void drawMove(int r){
 			d=d/6;
 			*/
 			if(pos[u+1][d].x==1){
-				if(pos[u][d+1].food==2){
-									brojac++;
-									pos[u][d+1].food=-1;
-								}else if(pos[u][d+1].food_b==3){
-									brojac+=10;
-									pos[u][d+1].food_b=-1;
-								}
+
 				for(l=0;l<6;l++){
 					pX++;
 				for(i=0;i<200000;i++)
@@ -579,13 +573,7 @@ void drawMove(int r){
 		if(r==3){//LEVO
 
 			if(pos[u-1][d].x==1){
-				if(pos[u][d+1].food==2){
-									brojac++;
-									pos[u][d+1].food=-1;
-								}else if(pos[u][d+1].food_b==3){
-									brojac+=10;
-									pos[u][d+1].food_b=-1;
-								}
+
 				for(l=0;l<6;l++){
 					pX--;
 				for(i=0;i<200000;i++)
@@ -630,13 +618,6 @@ void drawMove(int r){
 			}
 		if(r==4){//GORE
 			if(pos[u][d-1].x==1){
-				if(pos[u][d+1].food==2){
-									brojac++;
-									pos[u][d+1].food=-1;
-								}else if(pos[u][d+1].food_b==3){
-									brojac+=10;
-									pos[u][d+1].food_b=-1;
-								}
 				poz=1;
 
 				r=6;
@@ -735,13 +716,8 @@ void move() {
 
 
 
-		unsigned char string[]="sdads";
+
 		drawMove(r);
-		set_cursor(350);
-
-		print_string(XPAR_VGA_PERIPH_MEM_0_S_AXI_MEM0_BASEADDR,string,10);
-
-
 	}
 }
 
