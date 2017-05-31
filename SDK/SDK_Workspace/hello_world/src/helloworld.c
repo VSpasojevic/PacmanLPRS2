@@ -40,8 +40,8 @@
 #include "xio.h"
 #include "xil_exception.h"
 #include "vga_periph_mem.h"
-#include "pacman_sprites2.h"
-//#include "Sprites.h"
+//#include "pacman_sprites2.h"
+#include "Sprites.h"
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>
 #define SIZE 9
@@ -318,9 +318,33 @@ void drawMap(int in_x, int in_y, int out_x, int out_y, int width, int height) {
 
 
 	}
+}
+
+/*	void drawSprite(int in_x, int in_y, int out_x, int out_y, int width, int height) {
+
+		int ox, oy, oi, iy, ix, ii;
+		for(y=0;y<height;y++){
+			for(x=0;x<width;x++){
+				ox=out_x+x;
+				oy=out_y+y;
+				oi=oy*320+ox;
+				ix = in_x + x;
+				iy = in_y + y;
+				ii = iy * pacman.width + ix;
+				R = pacman.pixel_data[ii*pacman.bytes_per_pixel]>>5;
+				G = pacman.pixel_data[ii*pacman.bytes_per_pixel + 1] >> 5;
+				B = pacman.pixel_data[ii* pacman.bytes_per_pixel + 2] >> 5;
+				R <<= 6;
+				G <<= 3;
+				RGB = R | G | B;
+
+				VGA_PERIPH_MEM_mWriteMemory(XPAR_VGA_PERIPH_MEM_0_S_AXI_MEM0_BASEADDR + GRAPHICS_MEM_OFF+ oi * 4, RGB);
+						}
 
 
+		}
 
+	}*/
 /*	int ox, oy, oi, iy, ix, ii;
 	for (y = 0; y < height; y++) {
 		for (x = 0; x < width; x++) {
@@ -346,7 +370,7 @@ void drawMap(int in_x, int in_y, int out_x, int out_y, int width, int height) {
 		}
 	}*/
 
-}
+
 
 //drawing cursor for indicating position
 void drawingCursor(int startX, int startY, int endX, int endY) {
@@ -429,11 +453,18 @@ int matrix[868]={
 
 int s_posX=0;
 
-int p_s=10;
-int poz1=0,poz2=0,poz3=0;
-int poz=0,pX=156,pY=136;
+int p_s=8;
+int poz1P=24,poz1P1=24,poz1P2=33,poz1P3=42;
+int poz2P=24,poz2P1=24,poz2P2=58,poz2P3=49;
+int poz3P=53,poz3P1=24,poz3P2=203,poz3P3=194;
+int poz4P=24,poz4P1=24,poz4P2=33,poz4P3=42;
+
+
+
+int poz=0,pX=154,pY=138;
 int u=13,d=23,l=0,r=0,pX_old=14,pY_old=24,br=0;
 int posPx=14,posPy=23;
+int temp;
 void drawMove(int r){
 
 
@@ -445,23 +476,25 @@ void drawMove(int r){
 		if(r==2 )//DOLE
 		{
 			if(pos[u][d+1].x==1){
-				poz1=1;
+
+				//if(pos[u][d+2].x==0)
+				//	r=5;
 				for(l=0;l<6;l++){
 				pY++;
 				for(i=0;i<200000;i++)
 						i=i;
-				drawMap(39,186,pX,pY,p_s,p_s);
+				drawMap(24,186,pX,pY,p_s,p_s);
 				}
 				d++;
-			}else if(poz1!=-1){
-				for(l=0;l<4;l++){
+			}/*lse if(poz1!=-1){
+				for(l=0;l<3;l++){
 								pY++;
 								for(i=0;i<200000;i++)
 										i=i;
-								drawMap(39,186,pX,pY,p_s,p_s);
+								drawMap(38,186,pX,pY,p_s,p_s);
 								}
 				poz1=-1;
-			}
+			}*/
 
 
 		}
@@ -475,27 +508,42 @@ void drawMove(int r){
 			u=u/6;
 			d=d/6;
 			*/
-			if(pos[u+2][d].x==1){
-				poz2=1;
+			if(pos[u+1][d].x==1){
+
 				for(l=0;l<6;l++){
 					pX++;
 				for(i=0;i<200000;i++)
 					i=i;
+				if(l==0 || l==2 || l==4){
+					poz1P=poz1P2;
+				}else if(l==1 || l==5 ){
+					poz1P=poz1P3;
+				}else{
+					poz1P=poz1P1;
+				}
+				if(l==5){
+					temp=poz1P1;
+					poz1P1=poz1P3;
+					poz1P3=temp;
 
-				drawMap(39,186,pX,pY,p_s,p_s);
+				}
+
+
+
+				drawMap(poz1P,186,pX,pY,p_s,p_s);
 				}
 				u++;
-			}else if(poz2!=-1){
-				for(l=0;l<4;l++){
+			}/*else if(poz2!=-1){
+				for(l=0;l<3;l++){
 								pX++;
 							for(i=0;i<200000;i++)
 								i=i;
 
-							drawMap(39,186,pX,pY,p_s,p_s);
+							drawMap(38,186,pX,pY,p_s,p_s);
 							}
 				poz2=-1;
 				u++;
-			}
+			}*/
 
 
 
@@ -503,26 +551,44 @@ void drawMove(int r){
 		if(r==3){//LEVO
 
 			if(pos[u-1][d].x==1){
-				poz3=1;
+
 				for(l=0;l<6;l++){
 					pX--;
 				for(i=0;i<200000;i++)
 					i=i;
 
-				drawMap(39,186,pX,pY,p_s,p_s);
+				if(l==0 || l==2 || l==4){
+					poz2P=poz2P2;
+				}else if(l==1 || l==5 ){
+					poz2P=poz2P3;
+				}else{
+					poz2P=poz2P1;
+				}
+				if(l==5){
+					temp=poz2P1;
+					poz2P1=poz2P3;
+					poz2P3=temp;
+
+				}
+
+
+					drawMap(poz2P,186,pX,pY,p_s,p_s);
+
+
+
 				}
 				u--;
-			}else if(poz3!=-1){
-				for(l=0;l<4;l++){
+			}/*else if(poz3!=-1){
+				for(l=0;l<3;l++){
 					pX--;
 				for(i=0;i<200000;i++)
 					i=i;
 
-				drawMap(39,186,pX,pY,p_s,p_s);
+				drawMap(39,189,pX,pY,p_s,p_s);
 
 				}
 				poz3=-1;
-			}
+			}*/
 
 
 
@@ -531,28 +597,51 @@ void drawMove(int r){
 		if(r==4){//GORE
 			if(pos[u][d-1].x==1){
 				poz=1;
+
+				r=6;
+				//if(pos[u][d-2].x==0)
+				//	r=5;
+
 							for(l=0;l<6;l++){
 
 								pY--;
 							for(i=0;i<200000;i++)
 								i=i;
 
-							drawMap(39,186,pX,pY,p_s,p_s);
+							if(l==0 || l==2 || l==4){
+												poz3P=poz3P2;
+												poz3P1=53;
+											}else if(l==1 || l==5 ){
+												poz3P=poz3P3;
+												poz3P1=53;
+											}else{
+												poz3P1=24;
+												poz3P=186;
+											}
+											if(l==5){
+												temp=poz1P1;
+												poz1P1=poz3P3;
+												poz3P3=temp;
+
+											}
+
+
+							drawMap(poz3P1,poz3P,pX,pY,p_s,p_s);
 							}
 							d--;
-						}else if(poz!=-1){
+						}/*else if(poz!=-1){
 
-							for(l=0;l<4;l++){
+							for(l=0;l<2;l++){
 
 															pY--;
 														for(i=0;i<200000;i++)
 															i=i;
 
-														drawMap(39,186,pX,pY,p_s,p_s);
+														drawMap(38,186,pX,pY,p_s,p_s);
 														}
 							poz=-1;
 
-						}
+						}*/
 
 		}
 }
@@ -575,7 +664,7 @@ void move() {
 
 //	makeTable(solvedMap);
 	//drawingCursor(startX, startY, endX, endY);
-	drawMap(39,186,pX,pY,p_s,p_s);
+	drawMap(24,186,pX,pY,p_s,p_s);
 
 	while(endOfGame != 1){
 		if((Xil_In32(XPAR_MY_PERIPHERAL_0_BASEADDR)& DOWN)==0){
@@ -588,7 +677,7 @@ void move() {
 
 
 		}else if ((Xil_In32(XPAR_MY_PERIPHERAL_0_BASEADDR) & RIGHT)==0){
-			if(pos[u+2][d].x==1)
+			if(pos[u+1][d].x==1)
 				r=1;
 
 				//drawingCursor(startX,startY,endX,endY);
@@ -934,6 +1023,8 @@ for(kolona=0;kolona<186;kolona++){//prva pola
 
 	}
 
+	//drawSprite(39,147,0,0,10,10);
+
 	/*int pola;
 	for(pola=0;pola<=104;pola+=104){//prvi red
 		for(red=0;red<=88;red+=8){
@@ -976,6 +1067,8 @@ for(kolona=0;kolona<186;kolona++){//prva pola
 
 	//moving through the table
 	move();
+
+
 
 	cleanup_platform();
 
