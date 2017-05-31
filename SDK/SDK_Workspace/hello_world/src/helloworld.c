@@ -78,6 +78,16 @@ char blankMap[9][9];
 //map used for opening the blank fields that surround blank field selected
 char indicationMap[9][9];
 
+struct grid{
+	int food;
+	int x;
+	int y;
+	int food_b;
+
+
+}pos[28][31];
+
+
 //end of game
 void printOutEndOfGame(char blankTable[SIZE][SIZE], char solvedMap[SIZE][SIZE]) {
 	int i, j, ii, jj;
@@ -377,23 +387,233 @@ void drawingCursor(int startX, int startY, int endX, int endY) {
 	}
 
 }
+int matrix[868]={
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,
+		0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,
+		0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,
+		0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,
+		0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,
+		0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,
+		0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,
+		0,1,1,1,1,1,1,0,0,1,1,1,1,0,0,1,1,1,1,0,0,1,1,1,1,1,1,0,
+		0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,
+		0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,
+		0,0,0,0,0,0,1,0,0,1,1,1,1,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,
+		0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,
+		0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,
+		1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,
+		0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,
+		0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,
+		0,0,0,0,0,0,1,0,0,1,1,1,1,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,
+		0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,
+		0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,
+		0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,
+		0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,
+		0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,
+		0,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,0,
+		0,0,0,1,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,1,0,0,0,
+		0,0,0,1,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,1,0,0,0,
+		0,1,1,1,1,1,1,0,0,1,1,1,1,0,0,1,1,1,1,0,0,1,1,1,1,1,1,0,
+		0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,
+		0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,
+		0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+
+
+};
+
+
+
+int s_posX=0;
+
+int p_s=12;
+int poz1=0,poz2=0,poz3=0;
+int poz=0,pX=154,pY=136;
+int u=13,d=23,l=0,r=0,pX_old=14,pY_old=24,br=0;
+int posPx=14,posPy=23;
+void drawMove(int r){
+
+
+
+
+
+
+
+		if(r==2 )//DOLE
+		{
+			if(pos[u][d+1].x==1){
+				poz1=1;
+				for(l=0;l<6;l++){
+				pY++;
+				for(i=0;i<200000;i++)
+						i=i;
+				drawMap(39,186,pX,pY,p_s,p_s);
+				}
+				d++;
+			}else if(poz1!=-1){
+				for(l=0;l<1;l++){
+								pY++;
+								for(i=0;i<200000;i++)
+										i=i;
+								drawMap(39,186,pX,pY,p_s,p_s);
+								}
+				poz1=-1;
+			}
+
+
+		}
+		if(r==1){//DESNO
+
+
+			/*
+			u=pX-67;
+			d=pY+3;
+
+			u=u/6;
+			d=d/6;
+			*/
+			if(pos[u+2][d].x==1){
+				poz2=1;
+				for(l=0;l<6;l++){
+					pX++;
+				for(i=0;i<200000;i++)
+					i=i;
+
+				drawMap(39,186,pX,pY,p_s,p_s);
+				}
+				u++;
+			}else if(poz2!=-1){
+				for(l=0;l<4;l++){
+								pX++;
+							for(i=0;i<200000;i++)
+								i=i;
+
+							drawMap(39,186,pX,pY,p_s,p_s);
+							}
+				poz2=-1;
+				u++;
+
+			}
+
+
+
+		}
+		if(r==3){//LEVO
+
+			if(pos[u-1][d].x==1){
+				poz3=1;
+				for(l=0;l<6;l++){
+					pX--;
+				for(i=0;i<200000;i++)
+					i=i;
+
+				drawMap(39,186,pX,pY,p_s,p_s);
+				}
+				u--;
+			}else if(poz3!=-1){
+				for(l=0;l<3;l++){
+					pX--;
+				for(i=0;i<200000;i++)
+					i=i;
+
+				drawMap(39,186,pX,pY,p_s,p_s);
+
+				}
+				poz3=-1;
+			}
+
+
+
+
+			}
+		if(r==4){//GORE
+			if(pos[u][d-1].x==1){
+				poz=1;
+							for(l=0;l<6;l++){
+
+								pY--;
+							for(i=0;i<200000;i++)
+								i=i;
+
+							drawMap(39,186,pX,pY,p_s,p_s);
+							}
+							d--;
+						}else if(poz!=-1){
+
+							for(l=0;l<1;l++){
+
+															pY--;
+														for(i=0;i<200000;i++)
+															i=i;
+
+														drawMap(39,186,pX,pY,p_s,p_s);
+														}
+							poz=-1;
+
+						}
+
+		}
+}
+
 
 //function that controls switches and buttons
 
 void move() {
-	int startX = 81, startY = 81, endX = 96, endY = 96;
+	int startX = 81, startY = 81, endX = 153, endY = 174;
 	int oldStartX, oldStartY, oldEndX, oldEndY;
 	int x, y, ic, ib, i, j;
 	int prethodnoStanje;
+	int iX=0;
+	int r=0;
+
 	typedef enum {
 		NOTHING_PRESSED, SOMETHING_PRESSED
 	} btn_state_t;
 	btn_state_t btn_state = NOTHING_PRESSED;
 
-	makeTable(solvedMap);
-	drawingCursor(startX, startY, endX, endY);
+//	makeTable(solvedMap);
+	//drawingCursor(startX, startY, endX, endY);
+	drawMap(39,186,pX,pY,p_s,p_s);
 
-	while (endOfGame != 1) {
+	while(endOfGame != 1){
+		if((Xil_In32(XPAR_MY_PERIPHERAL_0_BASEADDR)& DOWN)==0){
+
+			if(pos[u][d+1].x==1)
+				r=2;
+
+				//drawingCursor(startX,startY,endX,endY);
+
+
+
+		}else if ((Xil_In32(XPAR_MY_PERIPHERAL_0_BASEADDR) & RIGHT)==0){
+			if(pos[u+2][d].x==1)
+				r=1;
+
+				//drawingCursor(startX,startY,endX,endY);
+
+
+
+		}else if ((Xil_In32(XPAR_MY_PERIPHERAL_0_BASEADDR) & LEFT)==0){
+			if(pos[u+1][d].x==1)
+				r=3;
+
+		}else if((Xil_In32(XPAR_MY_PERIPHERAL_0_BASEADDR) & UP)==0){
+
+			if(pos[u][d-1].x==1)
+				r=4;
+		}
+
+
+
+
+		drawMove(r);
+	}
+}
+
+
+	/*while (endOfGame != 1) {
 
 		if (btn_state == NOTHING_PRESSED) {
 			btn_state = SOMETHING_PRESSED;
@@ -606,9 +826,10 @@ void move() {
 			}
 		}
 
-	}
+	}*/
 
-}
+
+
 
 int main() {
 
@@ -669,20 +890,77 @@ int main() {
 			drawMap(80, 16, 80 + red * 16, 80 + kolona * 16, 16, 16);
 		}
 	}*/
-	for(kolona=0;kolona<238;kolona++){
-		for(red=0;red<108;red++){
-			drawMap(red,kolona,red+53,kolona,1,1);
+for(kolona=0;kolona<186;kolona++){//prva pola
+		for(red=0;red<84;red++){
+			drawMap(red,kolona,red+76,kolona,1,1);
 		}
 	}
 
-	for(kolona=237;kolona>=0;kolona--){
-			for(red=107;red>=0;red--){
-				drawMap(red,kolona,267-red,kolona,1,1);
+	for(kolona=185;kolona>=0;kolona--){//druga pola
+			for(red=83;red>=0;red--){
+				drawMap(red,kolona,243-red,kolona,1,1);
 			}
 		}
-	for(red=0;red<86;red+=7){
-		drawMap(86,261,63+red,11,3,3);
+
+
+	p=0;
+	r=0;
+	red=0;
+	kolona=0;
+/*	for(j=0;j<868;j++){
+
+		if(p==28){
+					kolona+=5;
+					p=0;
+					red+=152;
+					r++;
+
+		}								///CRTANJE RANE
+
+		if(matrix[j]==1){
+			drawMap(67,203,78+red,kolona+2,3,3);
+			pos[p][r].x=1;
+
+
+		}
+		red+=6;
+		p++;
+
+
+
+
+
 	}
+*/
+	/*int pola;
+	for(pola=0;pola<=104;pola+=104){//prvi red
+		for(red=0;red<=88;red+=8){
+			drawMap(86,261,63+red+pola,10,3,3);
+			drawMap(86,261,63+red+pola,156,3,3);
+		}
+	}
+
+	for(pola=0;pola<=193;pola+=193){//prva kolona
+		for(kolona=0;kolona<=56;kolona+=8){
+			drawMap(86,261,63+pola,10+kolona,3,3);
+		}
+
+	}
+
+	for(pola=0;pola<=113;pola+=113){//druga kolona
+		for(kolona=0;kolona<=192;kolona+=8)
+			drawMap(86,261,102+pola,10+kolona,3,3);
+	}
+
+	for(pola=0;pola<=184;pola+=184){//drugi red
+		for(red=0;red<=192;red+=8){
+			drawMap(86,261,63+red,42+pola,3,3);
+		}
+	}*/
+
+
+	//Pacman
+
 	//drawMap(0,0,0,0,112,240);
 
 	//smiley
@@ -695,7 +973,7 @@ int main() {
 	drawMap(116, 32, 168, 54, 14, 23);*/
 
 	//moving through the table
-//	move();
+	move();
 
 	cleanup_platform();
 
