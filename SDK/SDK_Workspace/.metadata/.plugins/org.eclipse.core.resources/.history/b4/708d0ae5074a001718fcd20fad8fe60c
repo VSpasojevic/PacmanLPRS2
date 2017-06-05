@@ -449,9 +449,9 @@ int matrix[868]={
 
 };
 int p_s=8;
-int g_s=8;
+int g_s=6;
 int g_x=13,g_y=11;
-int Gc_X=25,Gc_Y=217,GXc=154,GYc=66;
+int Gc_X=26,Gc_Y=218,GXc=154,GYc=66;
 int q=0,q1=0;
 int SLOW=70000,SLOW2=100000;
 int s_posX=0;
@@ -491,8 +491,6 @@ void drawGhost(int s){
 
 				drawMap(Gc_X,Gc_Y,GXc,GYc,g_s,g_s);
 			}
-			if(pos[g_x][g_y].food==2)
-			drawMap(44,213,78+(g_x)*6,(g_y)*6+2,3,3);
 			g_y++;
 		}
 	}
@@ -507,8 +505,6 @@ void drawGhost(int s){
 
 							drawMap(Gc_X,Gc_Y,GXc,GYc,g_s,g_s);
 						}
-			if(pos[g_x][g_y].food==2)
-			drawMap(44,213,78+(g_x)*6,(g_y)*6+2,3,3);
 						g_x++;
 		}
 	}
@@ -524,8 +520,6 @@ void drawGhost(int s){
 
 										drawMap(Gc_X,Gc_Y,GXc,GYc,g_s,g_s);
 									}
-			if(pos[g_x][g_y].food==2)
-			drawMap(44,213,78+(g_x)*6,(g_y)*6+2,3,3);
 									g_x--;
 		}
 		}
@@ -540,13 +534,10 @@ void drawGhost(int s){
 
 													drawMap(Gc_X,Gc_Y,GXc,GYc,g_s,g_s);
 												}
-			if(pos[g_x][g_y].food==2)
-			drawMap(44,213,78+g_x*6,(g_y)*6+2,3,3);
 												g_y--;
 
 	}
 		}
-
 
 }
 
@@ -623,9 +614,9 @@ void drawMove(int r){
 			d=d/6;
 			*/
 			if(pos[u+1][d].x==1){
-				if(pos[u+1][d].food==2){
+				if(pos[u][d+1].food==2){
 									brojac++;
-									pos[u+1][d].food=-1;
+									pos[u][d+1].food=-1;
 								}else if(pos[u][d+1].food_b==3){
 									brojac+=10;
 									pos[u][d+1].food_b=-1;
@@ -671,9 +662,9 @@ void drawMove(int r){
 		if(r==3){//LEVO
 
 			if(pos[u-1][d].x==1){
-				if(pos[u-1][d].food==2){
+				if(pos[u][d+1].food==2){
 									brojac++;
-									pos[u-1][d].food=-1;
+									pos[u][d+1].food=-1;
 								}else if(pos[u][d+1].food_b==3){
 									brojac+=10;
 									pos[u][d+1].food_b=-1;
@@ -722,10 +713,10 @@ void drawMove(int r){
 			}
 		if(r==4){//GORE
 			if(pos[u][d-1].x==1){
-				if(pos[u][d-1].food==2){
+				if(pos[u][d+1].food==2){
 									brojac++;
-									pos[u][d-1].food=-1;
-								}else if(pos[u][d-1].food_b==3){
+									pos[u][d+1].food=-1;
+								}else if(pos[u][d+1].food_b==3){
 									brojac+=10;
 									pos[u][d+1].food_b=-1;
 								}

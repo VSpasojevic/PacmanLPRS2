@@ -449,7 +449,6 @@ int matrix[868]={
 
 };
 int p_s=8;
-int g_s=8;
 int g_x=13,g_y=11;
 int Gc_X=25,Gc_Y=217,GXc=154,GYc=66;
 int q=0,q1=0;
@@ -471,12 +470,11 @@ int posPx=14,posPy=23;
 int temp;
 void drawGhost(int s){
 	if(pX==GXc && pY==GYc){
-		drawMap(5,4,76+u*6,d*6,g_s,g_s);
 											pX=154;pY=138; u=13;d=23;
 											drawMap(24,186,pX,pY,p_s,p_s);
 											g_x=13;g_y=11;GXc=154;GYc=66;
-															drawMap(Gc_X,Gc_Y,GXc,GYc,g_s,g_s);
-
+															drawMap(Gc_X,Gc_Y,GXc,GYc,p_s,p_s);
+															drawMap(5,4,76+u*6,d*6,p_s,p_s);
 								}
 
 	if(s==2 )//DOLE
@@ -489,10 +487,8 @@ void drawGhost(int s){
 					q1=q1;
 
 
-				drawMap(Gc_X,Gc_Y,GXc,GYc,g_s,g_s);
+				drawMap(Gc_X,Gc_Y,GXc,GYc,p_s,p_s);
 			}
-			if(pos[g_x][g_y].food==2)
-			drawMap(44,213,78+(g_x)*6,(g_y)*6+2,3,3);
 			g_y++;
 		}
 	}
@@ -505,10 +501,8 @@ void drawGhost(int s){
 								q1=q1;
 
 
-							drawMap(Gc_X,Gc_Y,GXc,GYc,g_s,g_s);
+							drawMap(Gc_X,Gc_Y,GXc,GYc,p_s,p_s);
 						}
-			if(pos[g_x][g_y].food==2)
-			drawMap(44,213,78+(g_x)*6,(g_y)*6+2,3,3);
 						g_x++;
 		}
 	}
@@ -522,10 +516,8 @@ void drawGhost(int s){
 											q1=q1;
 
 
-										drawMap(Gc_X,Gc_Y,GXc,GYc,g_s,g_s);
+										drawMap(Gc_X,Gc_Y,GXc,GYc,p_s,p_s);
 									}
-			if(pos[g_x][g_y].food==2)
-			drawMap(44,213,78+(g_x)*6,(g_y)*6+2,3,3);
 									g_x--;
 		}
 		}
@@ -538,15 +530,12 @@ void drawGhost(int s){
 														q1=q1;
 
 
-													drawMap(Gc_X,Gc_Y,GXc,GYc,g_s,g_s);
+													drawMap(Gc_X,Gc_Y,GXc,GYc,p_s,p_s);
 												}
-			if(pos[g_x][g_y].food==2)
-			drawMap(44,213,78+g_x*6,(g_y)*6+2,3,3);
 												g_y--;
 
 	}
 		}
-
 
 }
 
@@ -555,12 +544,11 @@ void drawGhost(int s){
 void drawMove(int r){
 
 	if(pX==GXc && pY==GYc){
-		drawMap(5,4,76+u*6,d*6,g_s,g_s);
 										pX=154;pY=138; u=13;d=23;
 										drawMap(24,186,pX,pY,p_s,p_s);
 										g_x=13;g_y=11;GXc=154;GYc=66;
 														drawMap(Gc_X,Gc_Y,GXc,GYc,p_s,p_s);
-
+														drawMap(5,4,76+u*6,d*6,p_s,p_s);
 							}
 
 
@@ -623,9 +611,9 @@ void drawMove(int r){
 			d=d/6;
 			*/
 			if(pos[u+1][d].x==1){
-				if(pos[u+1][d].food==2){
+				if(pos[u][d+1].food==2){
 									brojac++;
-									pos[u+1][d].food=-1;
+									pos[u][d+1].food=-1;
 								}else if(pos[u][d+1].food_b==3){
 									brojac+=10;
 									pos[u][d+1].food_b=-1;
@@ -671,9 +659,9 @@ void drawMove(int r){
 		if(r==3){//LEVO
 
 			if(pos[u-1][d].x==1){
-				if(pos[u-1][d].food==2){
+				if(pos[u][d+1].food==2){
 									brojac++;
-									pos[u-1][d].food=-1;
+									pos[u][d+1].food=-1;
 								}else if(pos[u][d+1].food_b==3){
 									brojac+=10;
 									pos[u][d+1].food_b=-1;
@@ -722,10 +710,10 @@ void drawMove(int r){
 			}
 		if(r==4){//GORE
 			if(pos[u][d-1].x==1){
-				if(pos[u][d-1].food==2){
+				if(pos[u][d+1].food==2){
 									brojac++;
-									pos[u][d-1].food=-1;
-								}else if(pos[u][d-1].food_b==3){
+									pos[u][d+1].food=-1;
+								}else if(pos[u][d+1].food_b==3){
 									brojac+=10;
 									pos[u][d+1].food_b=-1;
 								}
@@ -797,9 +785,17 @@ void move() {
 //	makeTable(solvedMap);
 	//drawingCursor(startX, startY, endX, endY);
 	drawMap(24,186,pX,pY,p_s,p_s);
-	drawMap(Gc_X,Gc_Y,GXc,GYc,g_s,g_s);//crveni
+	drawMap(Gc_X,Gc_Y,GXc,GYc,p_s,p_s);//crveni
 	u=13;d=23;
 	while(endOfGame != 1){
+
+		if(pX==GXc && pY==GYc){
+									pX=154;pY=138; u=13;d=23;
+									drawMap(24,186,pX,pY,p_s,p_s);
+									g_x=13;g_y=11;GXc=154;GYc=66;
+													drawMap(Gc_X,Gc_Y,GXc,GYc,p_s,p_s);
+													drawMap(5,4,76+u*6,d*6,p_s,p_s);
+						}
 
 
 

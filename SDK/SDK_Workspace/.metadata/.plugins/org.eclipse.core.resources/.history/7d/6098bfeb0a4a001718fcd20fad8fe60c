@@ -625,7 +625,7 @@ void drawMove(int r){
 			if(pos[u+1][d].x==1){
 				if(pos[u+1][d].food==2){
 									brojac++;
-									pos[u+1][d].food=-1;
+									pos[u][d+1].food=-1;
 								}else if(pos[u][d+1].food_b==3){
 									brojac+=10;
 									pos[u][d+1].food_b=-1;
@@ -673,7 +673,7 @@ void drawMove(int r){
 			if(pos[u-1][d].x==1){
 				if(pos[u-1][d].food==2){
 									brojac++;
-									pos[u-1][d].food=-1;
+									pos[u][d+1].food=-1;
 								}else if(pos[u][d+1].food_b==3){
 									brojac+=10;
 									pos[u][d+1].food_b=-1;
@@ -724,8 +724,8 @@ void drawMove(int r){
 			if(pos[u][d-1].x==1){
 				if(pos[u][d-1].food==2){
 									brojac++;
-									pos[u][d-1].food=-1;
-								}else if(pos[u][d-1].food_b==3){
+									pos[u][d+1].food=-1;
+								}else if(pos[u][d+1].food_b==3){
 									brojac+=10;
 									pos[u][d+1].food_b=-1;
 								}
