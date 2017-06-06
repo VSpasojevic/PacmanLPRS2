@@ -86,7 +86,7 @@ struct grid{
 	int food_b;
 
 
-}pos[28][31];
+}pos[27][30];
 
 
 //end of game
@@ -469,15 +469,20 @@ int poz=0,pX=154,pY=138;
 int u=13,d=23,l=0,r=0,pX_old=14,pY_old=24,br=0;
 int posPx=14,posPy=23;
 int temp;
+
+int mode=1;
 void drawGhost(int s){
 	if(pX==GXc && pY==GYc){
-		drawMap(5,4,76+u*6,d*6,g_s,g_s);
-											pX=154;pY=138; u=13;d=23;
-											drawMap(24,186,pX,pY,p_s,p_s);
-											g_x=13;g_y=11;GXc=154;GYc=66;
-															drawMap(Gc_X,Gc_Y,GXc,GYc,g_s,g_s);
 
-								}
+		if(mode==1){
+			drawMap(5,4,76+u*6,d*6,g_s,g_s);
+			pX=154;pY=138; u=13;d=23;
+			drawMap(24,186,pX,pY,p_s,p_s);
+		}
+		g_x=13;g_y=11;GXc=154;GYc=66;
+		drawMap(Gc_X,Gc_Y,GXc,GYc,g_s,g_s);
+
+}
 
 	if(s==2 )//DOLE
 	{
@@ -555,13 +560,15 @@ void drawGhost(int s){
 void drawMove(int r){
 
 	if(pX==GXc && pY==GYc){
-		drawMap(5,4,76+u*6,d*6,g_s,g_s);
-										pX=154;pY=138; u=13;d=23;
-										drawMap(24,186,pX,pY,p_s,p_s);
-										g_x=13;g_y=11;GXc=154;GYc=66;
-														drawMap(Gc_X,Gc_Y,GXc,GYc,p_s,p_s);
 
-							}
+		if(mode==1){
+			drawMap(5,4,76+u*6,d*6,g_s,g_s);
+		pX=154;pY=138; u=13;d=23;
+		drawMap(24,186,pX,pY,p_s,p_s);
+		}
+		g_x=13;g_y=11;GXc=154;GYc=66;
+		drawMap(Gc_X,Gc_Y,GXc,GYc,p_s,p_s);
+}
 
 
 
@@ -574,6 +581,7 @@ void drawMove(int r){
 					pos[u][d+1].food=-1;
 				}else if(pos[u][d+1].food_b==3){
 					brojac+=10;
+					mode=2;
 					pos[u][d+1].food_b=-1;
 				}
 				//if(pos[u][d+2].x==0)
@@ -613,8 +621,11 @@ void drawMove(int r){
 
 		}
 		if(r==1){//DESNO
-
-
+		/*if(pos[u-27][d].x==1&& d==14){
+				u=0;
+				drawMap(4,155,pX,pY,7,7);
+				pX-=162;
+			}*/
 			/*
 			u=pX-67;
 			d=pY+3;
@@ -622,13 +633,14 @@ void drawMove(int r){
 			u=u/6;
 			d=d/6;
 			*/
-			if(pos[u+1][d].x==1){
+			if(pos[u+1][d].x==1 ){
 				if(pos[u+1][d].food==2){
 									brojac++;
 									pos[u+1][d].food=-1;
-								}else if(pos[u][d+1].food_b==3){
+								}else if(pos[u+1][d].food_b==3){
 									brojac+=10;
-									pos[u][d+1].food_b=-1;
+									mode=2;
+									pos[u+1][d].food_b=-1;
 								}
 				for(l=0;l<6;l++){
 					pX++;
@@ -653,6 +665,8 @@ void drawMove(int r){
 				drawMap(poz1P,186,pX,pY,p_s,p_s);
 				}
 				u++;
+
+
 			}/*else if(poz2!=-1){
 				for(l=0;l<3;l++){
 								pX++;
@@ -669,14 +683,22 @@ void drawMove(int r){
 
 		}
 		if(r==3){//LEVO
+			if(pos[u+27][d].x==1){
+				u=27;
+				drawMap(4,155,pX,pY,7,7);
+				pX+=162;
+
+
+			}
 
 			if(pos[u-1][d].x==1){
 				if(pos[u-1][d].food==2){
 									brojac++;
 									pos[u-1][d].food=-1;
-								}else if(pos[u][d+1].food_b==3){
+								}else if(pos[u-1][d].food_b==3){
 									brojac+=10;
-									pos[u][d+1].food_b=-1;
+									mode=2;
+									pos[u-1][d].food_b=-1;
 								}
 				for(l=0;l<6;l++){
 					pX--;
@@ -727,7 +749,8 @@ void drawMove(int r){
 									pos[u][d-1].food=-1;
 								}else if(pos[u][d-1].food_b==3){
 									brojac+=10;
-									pos[u][d+1].food_b=-1;
+									mode=2;
+									pos[u][d-1].food_b=-1;
 								}
 				poz=1;
 
@@ -788,7 +811,8 @@ void move() {
 	int iX=0;
 	int r=0;
 	int s=0;
-
+	int scatter_x=2,scatter_y=1;
+	int timer=0;
 	typedef enum {
 		NOTHING_PRESSED, SOMETHING_PRESSED
 	} btn_state_t;
@@ -802,7 +826,9 @@ void move() {
 	while(endOfGame != 1){
 
 
+		if(mode==1){
 
+			Gc_X=25;Gc_Y=217;
 			if(g_x<u && pos[g_x+1][g_y].x==1){
 					s=1;
 			}else if(g_x>u && pos[g_x-1][g_y].x==1){
@@ -817,7 +843,34 @@ void move() {
 					pX=154;pY=138; u=13;d=23;
 					drawMap(24,186,pX,pY,p_s,p_s);
 				}*/
+			scatter_x=2;
+			scatter_y=1;
+		}
+		if(mode==2){
+			 Gc_X=34;Gc_Y=210;
+			timer++;
+			if(timer==500){
+				mode=1;
+				timer=0;
+			}
+			if(g_x<scatter_x && pos[g_x+1][g_y].x==1){
+								s=1;
+						}else if(g_x>scatter_x && pos[g_x-1][g_y].x==1){
+								s=3;
+						}else if(g_y<scatter_y && pos[g_x][g_y+1].x==1){
+									s=2;
+							}else if(g_y>scatter_y && pos[g_x][g_y-1].x==1){
+									s=4;
+							}
 
+			if(scatter_x==g_x && scatter_y==g_y){
+				scatter_x=20;
+				scatter_y=5;
+			}
+
+
+
+		}
 
 
 			drawGhost(s);
@@ -858,10 +911,10 @@ void move() {
 
 
 
-	//	set_cursor(0);
+		/*set_cursor(10);
 
-		//print_string(XPAR_VGA_PERIPH_MEM_0_S_AXI_MEM0_BASEADDR + GRAPHICS_MEM_OFF,brojac,2);
-
+		print_string(XPAR_VGA_PERIPH_MEM_0_S_AXI_MEM0_BASEADDR + GRAPHICS_MEM_OFF,"0"+brojac,20);
+*/
 
 	}
 }
@@ -895,14 +948,14 @@ int main() {
 
 	VGA_PERIPH_MEM_mWriteMemory(
 			XPAR_VGA_PERIPH_MEM_0_S_AXI_MEM0_BASEADDR + 0x00, 0x0); // direct mode   0
-/*	VGA_PERIPH_MEM_mWriteMemory(
-			XPAR_VGA_PERIPH_MEM_0_S_AXI_MEM0_BASEADDR + 0x04, 0x3); // display_mode  1*/
+	VGA_PERIPH_MEM_mWriteMemory(
+			XPAR_VGA_PERIPH_MEM_0_S_AXI_MEM0_BASEADDR + 0x04, 0x3); // display_mode  1
 	VGA_PERIPH_MEM_mWriteMemory(
 			XPAR_VGA_PERIPH_MEM_0_S_AXI_MEM0_BASEADDR + 0x08, 0x0); // show frame      2
 	VGA_PERIPH_MEM_mWriteMemory(
 			XPAR_VGA_PERIPH_MEM_0_S_AXI_MEM0_BASEADDR + 0x0C, 0xff); // font size       3
 	VGA_PERIPH_MEM_mWriteMemory(
-			XPAR_VGA_PERIPH_MEM_0_S_AXI_MEM0_BASEADDR + 0x10, 0xFFFFFF); // foreground 4
+			XPAR_VGA_PERIPH_MEM_0_S_AXI_MEM0_BASEADDR + 0x10, 0x0FFFFF); // foreground 4
 	VGA_PERIPH_MEM_mWriteMemory(
 			XPAR_VGA_PERIPH_MEM_0_S_AXI_MEM0_BASEADDR + 0x14, 0xFFFFFF); // background color 5
 	VGA_PERIPH_MEM_mWriteMemory(
