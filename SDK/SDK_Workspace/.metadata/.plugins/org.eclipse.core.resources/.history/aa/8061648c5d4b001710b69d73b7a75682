@@ -872,7 +872,7 @@ void move() {
 		if(mode==2){
 			Gc_X=34;Gc_Y=210;
 			timer+=1;
-			if(timer==500){
+			if(timer==10000){
 				mode=1;
 				timer=0;
 			}

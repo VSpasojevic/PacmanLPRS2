@@ -861,7 +861,7 @@ void move() {
 				}else if(g_y>d && pos[g_x][g_y-1].x==1){
 						s=4;
 				}/*else if(g_x==u && g_y==d) {
-					g_x=13;g_y=11;Gc_Y=217;GXc=153;
+					/*g_x=13;g_y=11;Gc_Y=217;GXc=153;
 					drawMap(Gc_X,Gc_Y,GXc,GYc,p_s,p_s);
 					pX=154;pY=138; u=13;d=23;
 					drawMap(24,186,pX,pY,p_s,p_s);
@@ -869,10 +869,10 @@ void move() {
 			scatter_x=2;
 			scatter_y=1;
 		}
-		if(mode==2){
-			Gc_X=34;Gc_Y=210;
-			timer+=1;
-			if(timer==500){
+		while(mode==2){
+			 Gc_X=34;Gc_Y=210;
+			timer++;
+			if(timer==500000){
 				mode=1;
 				timer=0;
 			}

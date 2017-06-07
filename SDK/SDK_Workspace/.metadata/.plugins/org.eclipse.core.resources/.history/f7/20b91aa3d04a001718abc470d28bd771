@@ -3,7 +3,7 @@
 static const struct {
   unsigned int  	 width;
   unsigned int  	 height;
-  unsigned int  	 bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */
+  unsigned int  	 bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */ 
   unsigned char 	 pixel_data[84 * 260 * 3 + 1];
 } pacman_sprites = {
   84, 260, 3,
@@ -2302,3 +2302,4 @@ static const struct {
   "\377\377\377\377\377\377\377\377\377\377\377\377\377\377\377\377\377\377"
   "\377\377\377\377\377\377\377\377\377",
 };
+
