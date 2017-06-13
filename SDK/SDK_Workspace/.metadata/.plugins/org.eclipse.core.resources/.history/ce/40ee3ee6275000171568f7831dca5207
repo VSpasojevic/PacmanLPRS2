@@ -273,7 +273,6 @@ int poz=0,pX=154,pY=138;
 int u=13,d=23,l=0,r=0,pX_old=14,pY_old=24,br=0;
 int posPx=14,posPy=23;
 int temp;
-int m=0;
 
 int mode=1;
 void drawGhost(int s){
@@ -398,17 +397,18 @@ void drawMove(int r){
 			pX=154;pY=138; u=13;d=23;
 			drawMap(24,186,pX,pY,p_s,p_s);
 			}
-			drawMap(150,84,96-m,187,p_s,p_s);
-						m+=8;
 
 		}
 		Gc_X=25;Gc_Y=217;
 		g_x=13;g_y=11;GXc=154;GYc=66;
-		if(zivot!=0)
-			drawMap(Gc_X,Gc_Y,GXc,GYc,p_s,p_s);
+		drawMap(Gc_X,Gc_Y,GXc,GYc,p_s,p_s);
 		timer=0;
 }
 		int i;
+		for(i=0;i<zivota;i++){
+			drawMap(24,186,80+next,187,p_s,p_s);
+			next+=8;
+		}
 
 
 		if(r==2 )//DOLE
@@ -837,10 +837,7 @@ for(kolona=0;kolona<186;kolona++){//prva pola
 			}
 		}
 
-	for(i=0;i<zivot;i++){
-				drawMap(24,186,80+next,187,p_s,p_s);
-				next+=8;
-			}
+
 
 	p=0;
 	r=0;

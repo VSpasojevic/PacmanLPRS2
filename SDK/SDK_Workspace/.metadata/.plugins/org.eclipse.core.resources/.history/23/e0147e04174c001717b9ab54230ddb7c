@@ -78,8 +78,6 @@ char solvedMap[9][9];
 char blankMap[9][9];
 //map used for opening the blank fields that surround blank field selected
 char indicationMap[9][9];
-int zivot=3;
-int next=0;
 
 struct grid{
 	int food;
@@ -91,10 +89,208 @@ struct grid{
 }pos[27][30];
 
 
+//end of game
+void printOutEndOfGame(char blankTable[SIZE][SIZE], char solvedMap[SIZE][SIZE]) {
+	int i, j, ii, jj;
+	for (i = 0; i < SIZE; i++) {
+		for (j = 0; j < SIZE; j++) {
+			ii = (i * 16) + 80;
+			jj = (j * 16) + 80;
+			if (blankTable[i][j] == FLAG) {
+				if (solvedMap[i][j] != BOMB) {
+					drawMap(16, 16, ii, jj, 16, 16);
+				}
+			} else if (blankTable[i][j] != FLAG && solvedMap[i][j] == BOMB) {
+				drawMap(0, 16, ii, jj, 16, 16);
+			}
+		}
+	}
+}
 
+//when the blank field is pressed, open all blank fields around it
 
+void clean(int x, int y, char resultTable[SIZE][SIZE],
+		char indicationMap[SIZE][SIZE]) {
+	int i, j;
 
+	indicationMap[x][y] = 'x';
 
+	if (resultTable[x][y] == BLANK) {
+		for (i = x - 1; i <= x + 1; i++) {
+			for (j = y - 1; j <= y + 1; j++) {
+				if (i >= 0 && j >= 0 && i < 9 && j < 9 && !(x == i && y == j)) {
+					if (indicationMap[i][j] == BLANK) {
+						clean(i, j, resultTable, indicationMap);
+					}
+				}
+
+			}
+		}
+	}
+}
+
+//function for opening selected field
+
+void openField(int x, int y, char map[9][9]) {
+	int i, j;
+	int x1, y1;
+	x1 = (x - 80) / 16;
+	y1 = (y - 80) / 16;
+
+	switch (map[x1][y1]) {
+	case NUM1:
+		drawMap(16, 0, x - 1, y - 1, 16, 16);
+		if (map != blankMap)
+			blankMap[x1][y1] = NUM1;
+		break;
+
+	case NUM2:
+		drawMap(32, 0, x - 1, y - 1, 16, 16);
+		if (map != blankMap)
+			blankMap[x1][y1] = NUM2;
+		break;
+
+	case NUM3:
+		drawMap(48, 0, x - 1, y - 1, 16, 16);
+		if (map != blankMap)
+			blankMap[x1][y1] = NUM3;
+		break;
+
+	case BLANK:
+		drawMap(0, 0, x - 1, y - 1, 16, 16);
+		if (map != blankMap)
+			blankMap[x1][y1] = BLANK;
+		clean(x1, y1, solvedMap, indicationMap);
+		for (i = 0; i < 9; i++) {
+			for (j = 0; j < 9; j++) {
+				xil_printf("%c", indicationMap[i][j]);
+			}
+			xil_printf("\n");
+		}
+		break;
+
+	case NUM4:
+		drawMap(64, 0, x - 1, y - 1, 16, 16);
+		if (map != blankMap)
+			blankMap[x1][y1] = NUM4;
+		break;
+
+	case BOMB:
+		if (map != blankMap)
+			blankMap[x1][y1] = BOMB;
+		endOfGame = 1;
+		printOutEndOfGame(blankMap, solvedMap);
+		drawMap(32, 16, x - 1, y - 1, 16, 16);
+		drawMap(77, 54, 120, 54, 27, 26);
+		break;
+	case '@':
+		drawMap(80, 16, x - 1, y - 1, 16, 16);
+		if (map != blankMap)
+			blankMap[x1][y1] = BEG;
+		break;
+
+	case '#':
+		drawMap(64, 16, x - 1, y - 1, 16, 16);
+		if (map != blankMap)
+			blankMap[x1][y1] = FLAG;
+		break;
+	}
+}
+
+//function that generates random game map
+void makeTable(char temp[9][9]) {
+	int numOfMines = NUMOFMINES, row, column, i, j, m, surroundingMines = 0;
+	char table[9][9];
+
+	srand(randomCounter);
+
+	//popunjava matricu nulama
+	for (i = 0; i < 9; i++) {
+		for (j = 0; j < 9; j++) {
+			table[i][j] = BLANK;
+		}
+	}
+
+	//postavlja random mine
+	while (numOfMines > 0) {
+		row = rand() % 9;
+		column = rand() % 9;
+		if (table[row][column] == BLANK) {
+			table[row][column] = BOMB;
+			numOfMines--;
+		}
+
+	}
+
+	//proverava poziciju mina i ispisuje brojeve na odg mesta
+	for (i = 0; i < 9; i++) {
+		for (j = 0; j < 9; j++) {
+			surroundingMines = 0;
+			if (table[i][j] != BOMB) {
+				if (i > 0 && j > 0) {
+					if (table[i - 1][j - 1] == BOMB)
+						surroundingMines++;
+				}
+				if (j > 0) {
+					if (table[i][j - 1] == BOMB)
+						surroundingMines++;
+				}
+				if (i < 9 - 1 && j > 0) {
+					if (table[i + 1][j - 1] == BOMB)
+						surroundingMines++;
+				}
+				if (i > 0) {
+					if (table[i - 1][j] == BOMB)
+						surroundingMines++;
+				}
+				if (i < 9 - 1) {
+					if (table[i + 1][j] == BOMB)
+						surroundingMines++;
+				}
+				if (i > 0 && j < 9 - 1) {
+					if (table[i - 1][j + 1] == BOMB)
+						surroundingMines++;
+				}
+				if (j < 9 - 1) {
+					if (table[i][j + 1] == BOMB)
+						surroundingMines++;
+				}
+				if (i < 9 - 1 && j < 9 - 1) {
+					if (table[i + 1][j + 1] == BOMB)
+						surroundingMines++;
+				}
+				table[i][j] = surroundingMines + '0';
+			}
+		}
+
+	}
+
+	//for testing
+
+	for (i = 0; i < 9; i++) {
+		for (j = 0; j < 9; j++) {
+			xil_printf("%c", table[i][j]);
+		}
+		xil_printf("\n");
+	}
+
+	for (i = 0; i < 9; i++) {
+		for (j = 0; j < 9; j++) {
+			temp[i][j] = table[j][i];
+
+		}
+	}
+
+	xil_printf("\n");
+
+	for (i = 0; i < 9; i++) {
+		for (j = 0; j < 9; j++) {
+			xil_printf("%c", temp[j][i]);
+		}
+		xil_printf("\n");
+	}
+
+}
 
 //extracting pixel data from a picture for printing out on the display
 
@@ -273,14 +469,12 @@ int poz=0,pX=154,pY=138;
 int u=13,d=23,l=0,r=0,pX_old=14,pY_old=24,br=0;
 int posPx=14,posPy=23;
 int temp;
-int m=0;
 
 int mode=1;
 void drawGhost(int s){
 	if(pX==GXc && pY==GYc){
 
 		if(mode==1){
-
 			drawMap(5,4,76+u*6,d*6,g_s,g_s);
 			pX=154;pY=138; u=13;d=23;
 			drawMap(24,186,pX,pY,p_s,p_s);
@@ -392,23 +586,17 @@ void drawMove(int r){
 	if(pX==GXc && pY==GYc){
 
 		if(mode==1){
-			zivot--;
-			if(zivot!=0){
 			drawMap(5,4,76+u*6,d*6,g_s,g_s);
 			pX=154;pY=138; u=13;d=23;
 			drawMap(24,186,pX,pY,p_s,p_s);
-			}
-			drawMap(150,84,96-m,187,p_s,p_s);
-						m+=8;
-
 		}
 		Gc_X=25;Gc_Y=217;
 		g_x=13;g_y=11;GXc=154;GYc=66;
-		if(zivot!=0)
-			drawMap(Gc_X,Gc_Y,GXc,GYc,p_s,p_s);
+		drawMap(Gc_X,Gc_Y,GXc,GYc,p_s,p_s);
 		timer=0;
 }
-		int i;
+
+
 
 
 		if(r==2 )//DOLE
@@ -662,9 +850,7 @@ void move() {
 	//drawingCursor(startX, startY, endX, endY);
 	drawMap(24,186,pX,pY,p_s,p_s);
 	drawMap(Gc_X,Gc_Y,GXc,GYc,g_s,g_s);//crveni
-	drawMap(17,193,146,14*6,g_s,g_s);//plavi
-	drawMap(17,209,156,14*6,g_s,g_s);//rozi
-	drawMap(17,201,166,14*6,g_s,g_s);//zuti
+	drawMap(17,193,76+69,14*6,g_s,g_s);//plavi
 	u=13;d=23;
 	while(endOfGame != 1){
 
@@ -688,12 +874,11 @@ void move() {
 				}*/
 		/*	scatter_x=2;
 			scatter_y=1;*/
-
 		}
 		if(mode==2){
 			Gc_X=34;Gc_Y=210;
 			timer+=1;
-				if(timer==500){
+				if(timer==1000){
 					mode=1;
 					timer=0;
 			}
@@ -749,9 +934,10 @@ void move() {
 		}
 		drawMove(r);
 
+
 		//unsigned char string[]="sdads";
 
-		if(brojac==282 || zivot==0){
+		if(brojac==282){
 			endOfGame=1;
 		}
 
@@ -763,7 +949,6 @@ void move() {
 
 	}
 }
-
 
 
 int main() {
@@ -837,10 +1022,8 @@ for(kolona=0;kolona<186;kolona++){//prva pola
 			}
 		}
 
-	for(i=0;i<zivot;i++){
-				drawMap(24,186,80+next,187,p_s,p_s);
-				next+=8;
-			}
+
+
 
 	p=0;
 	r=0;

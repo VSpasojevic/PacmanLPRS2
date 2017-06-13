@@ -398,14 +398,13 @@ void drawMove(int r){
 			pX=154;pY=138; u=13;d=23;
 			drawMap(24,186,pX,pY,p_s,p_s);
 			}
-			drawMap(150,84,96-m,187,p_s,p_s);
+			drawMap(146,88,96-m,187,p_s,p_s);
 						m+=8;
 
 		}
 		Gc_X=25;Gc_Y=217;
 		g_x=13;g_y=11;GXc=154;GYc=66;
-		if(zivot!=0)
-			drawMap(Gc_X,Gc_Y,GXc,GYc,p_s,p_s);
+		drawMap(Gc_X,Gc_Y,GXc,GYc,p_s,p_s);
 		timer=0;
 }
 		int i;
